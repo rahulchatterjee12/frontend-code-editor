@@ -8,6 +8,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { python } from "@codemirror/lang-python";
 import { cpp } from "@codemirror/lang-cpp";
 import { javascript } from "@codemirror/lang-javascript";
+import runCode from "@/helper/code/runCode";
 
 const LanguageList = ["cpp", "c", "python", "javascript"];
 
@@ -37,10 +38,19 @@ const CodeEditor = () => {
     setCode(val);
   }, []);
 
+  const onRun = () => {
+    const codeData = {
+      code: code,
+      input: "",
+      language: "python",
+    };
+    runCode(codeData);
+  };
+
   return (
     <>
-      <div className="flex justify-between mx-3 my-1">
-        <div>
+      <div className="flex justify-between my-1 flex-wrap">
+        <div className="flex gap-2 flex-wrap">
           <Select
             sx={{
               height: 33,
@@ -57,7 +67,6 @@ const CodeEditor = () => {
             sx={{
               height: 33,
               width: 150,
-              marginX: 2,
             }}
             size="small"
             onChange={(e) => setLanguage(e.target.value)}
@@ -71,13 +80,8 @@ const CodeEditor = () => {
             ))}
           </Select>
         </div>
-        <div className="">
-          <Button
-            sx={{ marginX: 2, gap: 1 }}
-            size="small"
-            variant="outlined"
-            color="info"
-          >
+        <div className="flex gap-2 flex-wrap">
+          <Button sx={{ gap: 1 }} size="small" variant="outlined" color="info">
             <SaveIcon />
             Save
           </Button>
@@ -86,13 +90,14 @@ const CodeEditor = () => {
             size="small"
             variant="contained"
             color="success"
+            onClick={onRun}
           >
             <PlayCircleFilledIcon />
             Run
           </Button>
         </div>
       </div>
-      <div className="max-h-[80vh]">
+      <div className="">
         <CodeMirror
           value={code}
           height="540px"

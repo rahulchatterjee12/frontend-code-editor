@@ -6,11 +6,11 @@ import OutputBox from "./OutputBox";
 
 const index = () => {
   return (
-    <div className="flex">
-      <div className="w-[60vw]">
+    <div className="grid grid-cols-4 w-full gap-2 mx-2">
+      <div className="col-span-3">
         <CodeEditor />
       </div>
-      <div className="flex flex-col justify-between w-[22vw]">
+      <div className="col-span-1 grid gap-1">
         <InputBox />
         <ExpectedOutputBox />
         <OutputBox />

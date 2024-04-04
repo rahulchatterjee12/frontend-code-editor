@@ -32,7 +32,11 @@ const Sidebar = () => {
               borderRadius: 2,
             }}
           >
-            <ListItemButton disableRipple onClick={() => router.push(`/${i}`)}>
+            <ListItemButton
+              disablePadding
+              disableRipple
+              onClick={() => router.push(`/${i}`)}
+            >
               <img
                 src="/icons/js.webp"
                 alt="js"
@@ -41,7 +45,7 @@ const Sidebar = () => {
               <h5
                 className={`text-gray-${
                   path === `/${i}` ? "900" : "700"
-                } font-serif`}
+                } font-serif text-sm`}
               >{`File${i}.js`}</h5>
             </ListItemButton>
           </ListItem>
