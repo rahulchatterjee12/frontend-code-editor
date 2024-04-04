@@ -1,27 +1,41 @@
 "use client";
 
 import React, { useState } from "react";
-import { Editor } from "@monaco-editor/react";
 import { Button, MenuItem, Select } from "@mui/material";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import SaveIcon from "@mui/icons-material/Save";
+import CodeMirror from "@uiw/react-codemirror";
+import { python } from "@codemirror/lang-python";
+import { cpp } from "@codemirror/lang-cpp";
+import { javascript } from "@codemirror/lang-javascript";
 
-const LanguageList = ["cpp", "java", "javascript", "python"];
+const LanguageList = ["cpp", "c", "python", "javascript"];
 
 const data = {
   user: "89as8d7fu98898asdf83",
-  lang: "javascript",
-  code: "console.log('hi')",
+  lang: "python",
+  code: "",
   filename: "test",
   inputs: "4",
   expected_output: "40",
   output: "40",
 };
 
+const getLang = (lang = "python") => {
+  if (lang === "python") return [python({ py: true })];
+  if (lang === "cpp") return [cpp({ cpp: true })];
+  if (lang === "c") return [cpp({ c: true })];
+  if (lang === "javascript") return [javascript({ jsx: true })];
+};
+
 const CodeEditor = () => {
   const [theme, setTheme] = useState("vs-dark");
-  const [language, setLanguage] = useState(data.lang);
+  const [language, setLanguage] = useState(data.lang || "python");
   const [code, setCode] = useState(data.code);
+
+  const onChange = React.useCallback((val, viewUpdate) => {
+    setCode(val);
+  }, []);
 
   return (
     <>
@@ -52,7 +66,7 @@ const CodeEditor = () => {
           >
             {LanguageList.map((lang) => (
               <MenuItem key={lang} value={lang}>
-                {lang}
+                {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </MenuItem>
             ))}
           </Select>
@@ -78,13 +92,14 @@ const CodeEditor = () => {
           </Button>
         </div>
       </div>
-      <Editor
-        height="90vh"
-        defaultLanguage="javascript"
-        defaultValue={code}
-        onChange={(e) => setCode(e)}
-        theme={theme}
-      />
+      <div className="max-h-[80vh]">
+        <CodeMirror
+          value={code}
+          height="540px"
+          extensions={getLang(language)}
+          onChange={onChange}
+        />
+      </div>
     </>
   );
 };
