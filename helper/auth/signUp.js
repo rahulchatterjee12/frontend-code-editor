@@ -1,11 +1,16 @@
 import axios from "axios";
-import axiosInstance from "@/src/utils/axiosInstance";
+import axiosInstance from "@/utils/axiosInstance";
 
-async function Signup(data) {
+async function Signup(firstName, lastName, email, password) {
   try {
     const response = await axios.post(
       `${axiosInstance.defaults.baseURL}/users/signup`,
-      JSON.stringify(data),
+      JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      }),
       {
         headers: {
           ...axiosInstance.defaults.headers,
@@ -14,7 +19,6 @@ async function Signup(data) {
         withCredentials: false,
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     console.error("Failed to signup");

@@ -32,11 +32,7 @@ const Sidebar = () => {
               borderRadius: 2,
             }}
           >
-            <ListItemButton
-              disablePadding
-              disableRipple
-              onClick={() => router.push(`/${i}`)}
-            >
+            <ListItemButton disableRipple onClick={() => router.push(`/${i}`)}>
               <img
                 src="/icons/js.webp"
                 alt="js"

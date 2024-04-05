@@ -1,6 +1,14 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
+import Link from "next/link";
+import getProfile from "@/helper/auth/getProfile";
 
 const Navbar = () => {
+  useEffect(() => {
+    getProfile();
+  }, []);
+
   return (
     <nav className="bg-gray-100">
       <div className="max-w-6xl mx-auto px-4">
@@ -31,15 +39,15 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-1">
-            <a href="" className="py-5 px-3">
+            <Link href="/login" className="py-5 px-3">
               Login
-            </a>
-            <a
-              href=""
+            </Link>
+            <Link
+              href="/signup"
               className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300"
             >
               SignUp
-            </a>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center">

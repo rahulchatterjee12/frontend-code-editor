@@ -31,7 +31,10 @@ axiosInstance.interceptors.request.use(async (config) => {
         try {
           const response = await axios.post(
             `${BASE_URL}/users/reauth`,
-            JSON.stringify({ refresh: tokens.refresh }),
+            JSON.stringify({
+              refreshTkn: tokens.refresh,
+              accessTkn: tokens.access,
+            }),
             {
               headers: {
                 Accept: "application/json",

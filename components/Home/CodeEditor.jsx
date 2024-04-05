@@ -29,7 +29,7 @@ const getLang = (lang = "python") => {
   if (lang === "javascript") return [javascript({ jsx: true })];
 };
 
-const CodeEditor = () => {
+const CodeEditor = ({ input, setOutput }) => {
   const [theme, setTheme] = useState("vs-dark");
   const [language, setLanguage] = useState(data.lang || "python");
   const [code, setCode] = useState(data.code);
@@ -38,13 +38,14 @@ const CodeEditor = () => {
     setCode(val);
   }, []);
 
-  const onRun = () => {
+  const onRun = async () => {
     const codeData = {
       code: code,
-      input: "",
-      language: "python",
+      input: input,
+      language: language,
     };
-    runCode(codeData);
+    const res = await runCode(codeData);
+    setOutput(res);
   };
 
   return (
