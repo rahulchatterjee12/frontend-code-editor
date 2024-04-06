@@ -44,7 +44,10 @@ axiosInstance.interceptors.request.use(async (config) => {
             }
           );
 
-          tokens = setTokens(response.data.access, response.data.refresh);
+          tokens = setTokens(
+            response.data.accessToken,
+            response.data.refreshTkn
+          );
         } catch (error) {
           if (error.response && error.response.status === 401) clearTokens();
           tokens = getTokens();

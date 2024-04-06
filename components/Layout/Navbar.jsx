@@ -1,12 +1,26 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import getProfile from "@/helper/auth/getProfile";
+import Avatar from "@mui/material/Avatar";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
+import LogoutIcon from "@mui/icons-material/Logout";
+import logout from "@/helper/auth/logout";
 
 const Navbar = () => {
+  const [profile, setProfile] = useState();
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    getProfile();
+    setLoading(true);
+    getProfile().then((res) => {
+      if (res?.status === 200) {
+        setProfile(res.data.user);
+      }
+      setLoading(false);
+    });
   }, []);
 
   return (
@@ -15,8 +29,8 @@ const Navbar = () => {
         <div className="flex justify-between">
           <div className="flex space-x-4">
             <div>
-              <a
-                href="#"
+              <Link
+                href="/"
                 className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900"
               >
                 <svg
@@ -34,50 +48,46 @@ const Navbar = () => {
                   />
                 </svg>
                 <span className="font-bold">Code Editor</span>
-              </a>
+              </Link>
             </div>
           </div>
-
-          <div className="hidden md:flex items-center space-x-1">
-            <Link href="/login" className="py-5 px-3">
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300"
-            >
-              SignUp
-            </Link>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <button className="mobile-menu-button">
-              <svg
-                className="w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
+          {!loading ? (
+            <>
+              {!profile ? (
+                <div className="hidden md:flex items-center space-x-1">
+                  <Link href="/login" className="py-5 px-3">
+                    Login
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300"
+                  >
+                    SignUp
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-3">
+                  <Avatar>{profile.firstName.charAt(0)}</Avatar>{" "}
+                  <p className="text-gray-600">
+                    {profile.firstName + " " + profile.lastName}
+                  </p>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    startIcon={<LogoutIcon />}
+                    onClick={() => {
+                      logout().then((res) => {});
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : (
+            <CircularProgress />
+          )}
         </div>
-      </div>
-
-      <div className="mobile-menu hidden md:hidden">
-        <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">
-          Features
-        </a>
-        <a href="#" className="block py-2 px-4 text-sm hover:bg-gray-200">
-          Pricing
-        </a>
       </div>
     </nav>
   );
