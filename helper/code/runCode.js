@@ -1,8 +1,9 @@
 import axios from "axios";
+import BASE_URL from "@/utils/constants/api";
 
 const runCode = async (data) => {
   try {
-    const url = "http://localhost:8000/api/code/run";
+    const url = `${BASE_URL}/code/run`;
     const headers = {
       "Content-Type": "application/json",
       "Content-Length": Infinity,

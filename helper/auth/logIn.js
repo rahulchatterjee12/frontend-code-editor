@@ -6,8 +6,8 @@ async function Login(email, password) {
     const response = await axios.post(
       `${axiosInstance.defaults.baseURL}/users/login`,
       JSON.stringify({
-        email: "rahul.chatterjee@runway.org.in",
-        password: "12345",
+        email: email,
+        password: password,
       }),
       {
         headers: {
@@ -19,7 +19,7 @@ async function Login(email, password) {
     );
     return response;
   } catch (error) {
-    console.error("Failed to Login");
+    console.error("Failed to Login", error);
   }
 }
 

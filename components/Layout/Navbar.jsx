@@ -8,10 +8,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import logout from "@/helper/auth/logout";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [profile, setProfile] = useState();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
@@ -76,7 +78,9 @@ const Navbar = () => {
                     size="small"
                     startIcon={<LogoutIcon />}
                     onClick={() => {
-                      logout().then((res) => {});
+                      logout().then((res) => {
+                        router.push("/login");
+                      });
                     }}
                   >
                     Logout
